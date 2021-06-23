@@ -1,9 +1,9 @@
 <?php
 /**
- * Plugin Name: Grab Latest Track From Sound Cloud
+ * Plugin Name: Grab Latest Track From SoundCloud
  * Plugin URI: 	https://www.wtwhmedia.com/plugins
  * Description: Adds a widget that pulls a SoundCloud RSS feed and generates all the needed code to display the latest track where ever you place the widget.  The plugin will setup a CRON job to check once an hour for the newest track.
- * Version:     1.0.1
+ * Version:     1.0.0
  * Author:      WTWH Media LLC - B. David Miyares
  * Author URI:  https://www.wtwhmedia.com 
  * License: GNU GPLv2
@@ -41,7 +41,7 @@ class wtwh_soundcloud extends WP_Widget {
 		);
 
 		// load widget
-		parent::__construct( $widget_slug, 'SoundCloud Newest Track', $widget_ops, $control_ops );
+		parent::__construct( $widget_slug, 'Newest SoundCloud Track', $widget_ops, $control_ops );
 
 	}
 
