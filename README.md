@@ -28,6 +28,12 @@ A: No.  This plugin was specifically made to pull RSS from SoundCloud
 **Q: Where can I find my SoundCloud RSS feed\'s URL?** 
 A: Login to your SoundCloud account and go under settings -> Content.  The RSS feed will be displayed here.
 
+**Q: The Date / Title are pushed up right against the DIV and look terrible! How can I change this?
+A: You can tweek the way the Date & the Title show up using the WordPress Customizing -> Additional CSS.  
+	 There are two classes for these.  So adding something like the snip below will push everything over to the right
+	 
+	 		.SoundCloudPubDate{padding:10px}
+			.SoundCloudTitle{padding:10px}
 
 
 == Screenshots ==

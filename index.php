@@ -7,7 +7,7 @@
  * Author:      WTWH Media LLC - B. David Miyares
  * Author URI:  https://www.wtwhmedia.com 
  * License: GNU GPLv2
- * GitHub : https://github.com/dmiyares/SoundCloud-Latest-Track-Grabber
+ * GitHub : https://github.com/dmiyares/grab-latest-track-from-soundcloud
  *
  */
 
@@ -21,7 +21,7 @@ class wtwh_soundcloud extends WP_Widget {
 
 		// widget defaults
 		$this->defaults = array(
-						'title'          => 'Featured Programming',
+						'title'          => 'Featured Podcast',
             'more_url'       => '',
 		);
 
@@ -45,7 +45,7 @@ class wtwh_soundcloud extends WP_Widget {
 
 	}
 
-	// stuff for front pages
+	// front pages
 	
 	function widget( $args, $instance ) {
 
@@ -62,9 +62,7 @@ class wtwh_soundcloud extends WP_Widget {
 		$SoundCloudPubDate =get_option('wtwh_soundcloud_pubDateID-'.$WidgetNumber);
 		$SoundCloudTitle   =get_option('wtwh_soundcloud_title-'.$WidgetNumber);
 		
-	 
-		
-		
+
 		
 		echo $before_widget;
 
@@ -74,14 +72,10 @@ class wtwh_soundcloud extends WP_Widget {
 				echo $before_title . apply_filters( 'widget_title', $instance['title'] ) .  $after_title;
 			}
 
-             
-                echo '<div class="article-listing"><div class="row">';
-          
-                
-               
-				  echo '<div >';
+	      echo '<div class="wtwh-soundcloud-player-wrapper"><div class="wtwh-soundcloud-player">';
+        echo '<div >';
 				 
-				 
+				// Box iframe embedcode.  Height hardcoded to 300 
 				echo '<iframe width="100%" height="300" scrolling="no" frameborder="no" allow="autoplay" src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/'.$SoundCloudTrackID.'&color=%23ff5500&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true&visual=true"></iframe>';
 
 		if($instance['show_date']=="Y"){
@@ -91,7 +85,7 @@ class wtwh_soundcloud extends WP_Widget {
 				 
 			 
 					echo '</div>';
-    			  $more = !empty( $instance['more_url'] ) ? ' <a href="' . esc_url( $instance['more_url'] ) . '">See More ></a>' : '';
+    			  $more = !empty( $instance['more_url'] ) ? ' <a href="' . esc_url( $instance['more_url'] ) . '" class="SoundCloudTitle SoundCloudPubDate">See More ></a>' : '';
     			  
     			  echo $more;
                 echo '</div></div>';
@@ -103,7 +97,7 @@ class wtwh_soundcloud extends WP_Widget {
 	 
 	function update( $new_instance, $old_instance ) {
 	
-	// save the details of the news item in the rss feed to the Options table.
+	// save the details of the news item in the rss feed to the options table.
 	
 		$new_instance['title']      = strip_tags( $new_instance['title'] );
 		$new_instance['rssfeed']    = esc_url( $new_instance['rssfeed'] );
@@ -168,8 +162,8 @@ class wtwh_soundcloud extends WP_Widget {
 // functions
 
 function wtwh_soundcloud_activate_plugin(){
-	if( version_compare(get_bloginfo('version'),'5.7.2', '<'))	{
-			wp_die('This plugin will not work on this version of WordPress. You need 5.7.2 or better');
+	if( version_compare(get_bloginfo('version'),'5.0.0', '<'))	{
+			wp_die('This plugin will not work on this version of WordPress. You need 5.0.0 or better');
 			}
 		global $wpdb;
 		wp_schedule_event(time(),'hourly', 'wtwh_soundcloud_cron_job_setup_to_pull_rss_feed'); // set cron job to pull new items from Sound Cloud once every hour.  
@@ -214,7 +208,7 @@ function wtwh_soundcloud_pull_rss_feed($WidgetID, $FeedURL){
     $SoundcloudTitle="wtwh_soundcloud_title-".$WidgetID;
     
     update_option( $SoundcloudID,$matches[1], true );
-    update_option( $SoundcloudPubDate,$item->get_date('g:i a - F j Y'), true );
+    update_option( $SoundcloudPubDate,$item->get_date('F j, Y'), true );
     update_option( $SoundcloudTitle,esc_html( $item->get_title() ), true );
     
     
