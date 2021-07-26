@@ -5,9 +5,9 @@
  * Description: Adds a widget that pulls a SoundCloud RSS feed and generates all the needed code to display the latest track where ever you place the widget.  The plugin will setup a CRON job to check once an hour for the newest track.
  * Version:     1.0.0
  * Author:      WTWH Media LLC - B. David Miyares
- * Author URI:  https://www.wtwhmedia.com 
+ * Author URI:  https://www.wtwhmedia.com/plugins
  * License: GNU GPLv2
- * GitHub : https://github.com/dmiyares/grab-latest-track-from-soundcloud
+ * GitHub : https://github.com/dmiyares/SoundCloud-Latest-Track-Grabber
  *
  */
 
@@ -21,7 +21,7 @@ class wtwh_soundcloud extends WP_Widget {
 
 		// widget defaults
 		$this->defaults = array(
-						'title'          => 'Featured Podcast',
+						'title'          => 'Featured Programming',
             'more_url'       => '',
 		);
 
@@ -45,7 +45,7 @@ class wtwh_soundcloud extends WP_Widget {
 
 	}
 
-	// front pages
+	// stuff for front pages
 	
 	function widget( $args, $instance ) {
 
@@ -57,12 +57,14 @@ class wtwh_soundcloud extends WP_Widget {
 		$widgetID=$args['widget_id'];
  
  
- 		$WidgetNumber=$res = preg_replace("/[^0-9]/", "", $widgetID );
-		$SoundCloudTrackID =get_option('wtwh_soundcloud_trackID-'.$WidgetNumber);
-		$SoundCloudPubDate =get_option('wtwh_soundcloud_pubDateID-'.$WidgetNumber);
-		$SoundCloudTitle   =get_option('wtwh_soundcloud_title-'.$WidgetNumber);
+ 		$widget_number=$res = preg_replace("/[^0-9]/", "", $widgetID );
+		$sound_cloud_track_id =get_option('wtwh_soundcloud_trackID-'.$widget_number);
+		$sound_cloud_pub_date =get_option('wtwh_soundcloud_pubDateID-'.$widget_number);
+		$sound_cloud_title   =get_option('wtwh_soundcloud_title-'.$widget_number);
 		
-
+	 
+		
+		
 		
 		echo $before_widget;
 
@@ -72,20 +74,24 @@ class wtwh_soundcloud extends WP_Widget {
 				echo $before_title . apply_filters( 'widget_title', $instance['title'] ) .  $after_title;
 			}
 
-	      echo '<div class="wtwh-soundcloud-player-wrapper"><div class="wtwh-soundcloud-player">';
-        echo '<div >';
+             
+                echo '<div class="wtwh-soundcloud-player-wrapper"><div class="wtwh-soundcloud-player">';
+          
+                
+               
+				  echo '<div>';
 				 
-				// Box iframe embedcode.  Height hardcoded to 300 
-				echo '<iframe width="100%" height="300" scrolling="no" frameborder="no" allow="autoplay" src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/'.$SoundCloudTrackID.'&color=%23ff5500&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true&visual=true"></iframe>';
+				 
+				echo '<iframe width="100%" height="300" scrolling="no" frameborder="no" allow="autoplay" src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/'.$sound_cloud_track_id.'&color=%23ff5500&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true&visual=true"></iframe>';
 
 		if($instance['show_date']=="Y"){
-			echo '<div class="SoundCloudPubDate">'.$SoundCloudPubDate.'</div>';}
+			echo '<div class="sound_cloud_pub_date">'.$sound_cloud_pub_date.'</div>';}
 		if($instance['show_title']=="Y"){
-			echo '<div class="SoundCloudTitle">'.$SoundCloudTitle.'</div>';}
+			echo '<div class="sound_cloud_title">'.$sound_cloud_title.'</div>';}
 				 
 			 
 					echo '</div>';
-    			  $more = !empty( $instance['more_url'] ) ? ' <a href="' . esc_url( $instance['more_url'] ) . '" class="SoundCloudTitle SoundCloudPubDate">See More ></a>' : '';
+    			  $more = !empty( $instance['more_url'] ) ? ' <a href="' . esc_url( $instance['more_url'] ) . '" class="sound_cloud_title sound_cloud_pub_date">See More ></a>' : '';
     			  
     			  echo $more;
                 echo '</div></div>';
@@ -97,7 +103,7 @@ class wtwh_soundcloud extends WP_Widget {
 	 
 	function update( $new_instance, $old_instance ) {
 	
-	// save the details of the news item in the rss feed to the options table.
+	// save the details of the news item in the rss feed to the Options table.
 	
 		$new_instance['title']      = strip_tags( $new_instance['title'] );
 		$new_instance['rssfeed']    = esc_url( $new_instance['rssfeed'] );
@@ -162,8 +168,8 @@ class wtwh_soundcloud extends WP_Widget {
 // functions
 
 function wtwh_soundcloud_activate_plugin(){
-	if( version_compare(get_bloginfo('version'),'5.0.0', '<'))	{
-			wp_die('This plugin will not work on this version of WordPress. You need 5.0.0 or better');
+	if( version_compare(get_bloginfo('version'),'5.7.2', '<'))	{
+			wp_die('This plugin will not work on this version of WordPress. You need 5.7.2 or better');
 			}
 		global $wpdb;
 		wp_schedule_event(time(),'hourly', 'wtwh_soundcloud_cron_job_setup_to_pull_rss_feed'); // set cron job to pull new items from Sound Cloud once every hour.  
@@ -192,11 +198,11 @@ function wtwh_soundcloud_pull_rss_feed($WidgetID, $FeedURL){
 		endif;
 	   foreach ( $rss_items as $item ){ 
 	  	
-  // here's pretty much everything i can pull from soundcould RSS feed 
-  # 	echo esc_url( $item->get_permalink() );               print("\n");
-  # 	echo 'Posted '.$item->get_date('j F Y | g:i a');      print("\n");
-  # 	echo esc_html( $item->get_title() );                  print("\n");
-  # 	echo $item->get_base();                               print("\n");
+  // here's pretty much everything we can pull from soundcould RSS feed 
+  #  echo esc_url( $item->get_permalink() );               print("\n");
+  #  echo 'Posted '.$item->get_date('j F Y | g:i a');      print("\n");
+  #  echo esc_html( $item->get_title() );                  print("\n");
+  #  echo $item->get_base();                               print("\n");
   #  echo $rss->get_title();                               print("\n");
   #  echo $item->get_description();                        print("\n");
     
@@ -204,12 +210,12 @@ function wtwh_soundcloud_pull_rss_feed($WidgetID, $FeedURL){
     preg_match('/tag\:soundcloud\,2010\:tracks\/(.*)/', $item->get_id(), $matches);
     
     $SoundcloudID="wtwh_soundcloud_trackID-".$WidgetID;
-    $SoundcloudPubDate="wtwh_soundcloud_pubDateID-".$WidgetID;
-    $SoundcloudTitle="wtwh_soundcloud_title-".$WidgetID;
+    $sound_cloud_pub_date="wtwh_soundcloud_pubDateID-".$WidgetID;
+    $sound_cloud_title="wtwh_soundcloud_title-".$WidgetID;
     
     update_option( $SoundcloudID,$matches[1], true );
-    update_option( $SoundcloudPubDate,$item->get_date('F j, Y'), true );
-    update_option( $SoundcloudTitle,esc_html( $item->get_title() ), true );
+    update_option( $sound_cloud_pub_date,$item->get_date('F j, Y'), true );
+    update_option( $sound_cloud_title,esc_html( $item->get_title() ), true );
     
     
     
