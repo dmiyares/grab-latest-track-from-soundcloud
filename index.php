@@ -1,11 +1,11 @@
 <?php
 /**
  * Plugin Name: Grab Latest Track From SoundCloud
- * Plugin URI: 	https://www.wtwhmedia.com/plugins
+ * Plugin URI: 	https://marketing.wtwhmedia.com/plugins/
  * Description: Adds a widget that pulls a SoundCloud RSS feed and generates all the needed code to display the latest track where ever you place the widget.  The plugin will setup a CRON job to check once an hour for the newest track.
  * Version:     1.0.0
  * Author:      WTWH Media LLC - B. David Miyares
- * Author URI:  https://www.wtwhmedia.com/plugins
+ * Author URI:  https://marketing.wtwhmedia.com/contact-us/
  * License: GNU GPLv2
  * GitHub : https://github.com/dmiyares/SoundCloud-Latest-Track-Grabber
  *
@@ -82,18 +82,18 @@ class wtwh_soundcloud extends WP_Widget {
 				  echo '<div>';
 				 
 				 
-				echo '<iframe width="100%" height="300" scrolling="no" frameborder="no" allow="autoplay" src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/'.$sound_cloud_track_id.'&color=%23ff5500&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true&visual=true"></iframe>';
+				echo '<iframe width="100%" height="300" scrolling="no" frameborder="no" allow="autoplay" src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/'.esc_html($sound_cloud_track_id).'&color=%23ff5500&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true&visual=true"></iframe>';
 
 		if($instance['show_date']=="Y"){
-			echo '<div class="sound_cloud_pub_date">'.$sound_cloud_pub_date.'</div>';}
+			echo '<div class="sound_cloud_pub_date">'.esc_html($sound_cloud_pub_date).'</div>';}
 		if($instance['show_title']=="Y"){
-			echo '<div class="sound_cloud_title">'.$sound_cloud_title.'</div>';}
-				 
-			 
-					echo '</div>';
-    			  $more = !empty( $instance['more_url'] ) ? ' <a href="' . esc_url( $instance['more_url'] ) . '" class="sound_cloud_title sound_cloud_pub_date">See More ></a>' : '';
+			echo '<div class="sound_cloud_title">'.esc_html($sound_cloud_title).'</div>';}
+			
+			echo '</div>';
+    			 
+    		 	if(!empty( $instance['more_url'] )){ echo ' <a href="' . esc_url( $instance['more_url'] ) . '" class="sound_cloud_title sound_cloud_pub_date">See More ></a>';};
     			  
-    			  echo $more;
+    			   
                 echo '</div></div>';
              
 
@@ -125,27 +125,29 @@ class wtwh_soundcloud extends WP_Widget {
   
 		?>
 		<p>
-			<label for="<?php echo $this->get_field_id( 'title' ); ?>">Title:</label>
-			<input type="text" id="<?php echo $this->get_field_id( 'title' ); ?>" name="<?php echo $this->get_field_name( 'title' ); ?>" value="<?php echo esc_attr( $instance['title'] ); ?>" class="widefat" />
+			<label for="<?php echo esc_attr($this->get_field_id( 'title' )); ?>">Title:</label>
+			<input type="text" id="<?php echo esc_attr($this->get_field_id( 'title' )); ?>" name="<?php echo esc_attr($this->get_field_name( 'title' )); ?>" value="<?php echo esc_attr( $instance['title'] ); ?>" class="widefat" />
 		</p>
 		<p>
-			<label for="<?php echo $this->get_field_id( 'rssfeed' ); ?>">RSS Feed URL:</label>
-			<input type="text" id="<?php echo $this->get_field_id( 'rssfeed' ); ?>" name="<?php echo $this->get_field_name( 'rssfeed' ); ?>" value="<?php echo esc_attr( $instance['rssfeed'] ); ?>" class="widefat" />
+			
+			<label for="<?php echo esc_url($this->get_field_id( 'rssfeed' )); ?>">RSS Feed URL:</label>
+			
+			<input type="text" id="<?php echo esc_url($this->get_field_id( 'rssfeed' )); ?>" name="<?php echo esc_attr( $this->get_field_name( 'rssfeed' )); ?>" value="<?php echo esc_url( $instance['rssfeed'] ); ?>" class="widefat" />
 		</p>
 		<p>
-			<label for="<?php echo $this->get_field_id( 'more_url' ); ?>">More URL:</label>
-			<input type="text" id="<?php echo $this->get_field_id( 'more_url' ); ?>" name="<?php echo $this->get_field_name( 'more_url' ); ?>" value="<?php echo esc_attr( $instance['more_url'] ); ?>" class="widefat" />
+			<label for="<?php echo esc_attr($this->get_field_id( 'more_url' )); ?>">More URL:</label>
+			<input type="text" id="<?php echo esc_attr($this->get_field_id( 'more_url' )); ?>" name="<?php echo esc_attr($this->get_field_name( 'more_url' )); ?>" value="<?php echo esc_attr( $instance['more_url'] ); ?>" class="widefat" />
 		</p>
 		
 		<p>
-			<label for="<?php echo $this->get_field_id( 'show_title' ); ?>">Show Title:</label>
-			<input type="checkbox" id="<?php echo $this->get_field_id( 'show_title' ); ?>" name="<?php echo $this->get_field_name( 'show_title' ); ?>" value="Y" 
+			<label for="<?php echo esc_attr($this->get_field_id( 'show_title' )); ?>">Show Title:</label>
+			<input type="checkbox" id="<?php echo esc_attr($this->get_field_id( 'show_title' )); ?>" name="<?php echo esc_attr($this->get_field_name( 'show_title' )); ?>" value="Y" 
 			<?php if( $instance['show_title']==="Y"){print(' checked ');}?>/>
 		</p>
 		
 		<p>
-			<label for="<?php echo $this->get_field_id( 'show_date' ); ?>">Show Date:</label>
-			<input type="checkbox" id="<?php echo $this->get_field_id( 'show_date' ); ?>" name="<?php echo $this->get_field_name( 'show_date' ); ?>" value="Y" 
+			<label for="<?php echo esc_attr($this->get_field_id( 'show_date' )); ?>">Show Date:</label>
+			<input type="checkbox" id="<?php echo esc_attr($this->get_field_id( 'show_date' )); ?>" name="<?php echo esc_attr($this->get_field_name( 'show_date' )); ?>" value="Y" 
 			<?php if( $instance['show_date']==="Y"){print(' checked ');}?>/>
 		</p>
 		
@@ -188,16 +190,18 @@ function wtwh_soundcloud_deactivate_plugin(){
 
 
 function wtwh_soundcloud_pull_rss_feed($WidgetID, $FeedURL){
-
+	
+	$rss_items = null;
 	$rss = fetch_feed($FeedURL);   
-	
-	
-		if (!is_wp_error( $rss ) ) :
+ 
+ 		if (!is_wp_error( $rss ) ) :
 		    $maxitems = $rss->get_item_quantity(1);
 		    $rss_items = $rss->get_items(0, $maxitems);
 		endif;
+		
+		 if($rss_items) {	
 	   foreach ( $rss_items as $item ){ 
-	  	
+	 
   // here's pretty much everything we can pull from soundcould RSS feed 
   #  echo esc_url( $item->get_permalink() );               print("\n");
   #  echo 'Posted '.$item->get_date('j F Y | g:i a');      print("\n");
@@ -217,35 +221,47 @@ function wtwh_soundcloud_pull_rss_feed($WidgetID, $FeedURL){
     update_option( $sound_cloud_pub_date,$item->get_date('F j, Y'), true );
     update_option( $sound_cloud_title,esc_html( $item->get_title() ), true );
     
-    
-    
    
    
  }
-      	 
+}    	 
 } 
 
 
-function wtwh_soundcloud_pull_feeds_from_options(){
-	
-	
+function wtwh_soundcloud_pull_feeds_from_options(){	
 				$Feeds=get_option('widget_wtwh_soundcloud_widget');
-					foreach($Feeds as $WidgetID => $Feed){
-						 	$FeedURL=wtwh_soundcloud_pull_rss_feed($WidgetID, $Feed['rssfeed']);
-					}
+				 
+					foreach($Feeds as $WidgetID => $feed_url){
+ 
+ 						$FeedURL=wtwh_soundcloud_pull_rss_feed($WidgetID, $feed_url['rssfeed']);
+				 }
 		}
  
  
 function wtwh_soundcloud_initial_pull(){
+	
+	$wtwhSoundcloudPullNow =    (isset($_GET['wtwhSoundcloudPullNow'])     ? $_GET['wtwhSoundcloudPullNow']  : null);
 	if(is_admin()){
-	if($_GET['wtwhSoundcloudPullNow']=="PullNow"){
+
+	if($wtwhSoundcloudPullNow=="PullNow"){
  			wtwh_soundcloud_pull_feeds_from_options();
 		}
 	}
 }
- // Hooks
 
-		add_action( 'widgets_init', create_function( '', "register_widget('wtwh_soundcloud');" ) );
+
+function wtwh_soundcloud ()
+{
+    return register_widget('wtwh_soundcloud');
+}
+
+
+
+ 
+
+ // Hooks
+ 
+		add_action ('widgets_init', 'wtwh_soundcloud');
 	 	add_action('admin_notices', 'wtwh_soundcloud_initial_pull' );
 		register_activation_hook(__FILE__, 'wtwh_soundcloud_activate_plugin');
 		register_deactivation_hook(__FILE__, 'wtwh_soundcloud_deactivate_plugin');
