@@ -71,7 +71,7 @@ class wtwh_soundcloud extends WP_Widget {
 			// Title
 			if ( !empty( $instance['title'] ) ) {
                
-				echo $before_title . apply_filters( 'widget_title', $instance['title'] ) .  $after_title;
+				echo $before_title . apply_filters( 'widget_title', esc_attr($instance['title']) ) .  $after_title;
 			}
 
              
@@ -82,16 +82,16 @@ class wtwh_soundcloud extends WP_Widget {
 				  echo '<div>';
 				 
 				 
-				echo '<iframe width="100%" height="300" scrolling="no" frameborder="no" allow="autoplay" src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/'.esc_html($sound_cloud_track_id).'&color=%23ff5500&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true&visual=true"></iframe>';
+				echo '<iframe width="100%" height="300" scrolling="no" frameborder="no" allow="autoplay" src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/'.esc_attr($sound_cloud_track_id).'&color=%23ff5500&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true&visual=true"></iframe>';
 
 		if($instance['show_date']=="Y"){
-			echo '<div class="sound_cloud_pub_date">'.esc_html($sound_cloud_pub_date).'</div>';}
+			echo '<div class="sound_cloud_pub_date">'.esc_attr($sound_cloud_pub_date).'</div>';}
 		if($instance['show_title']=="Y"){
-			echo '<div class="sound_cloud_title">'.esc_html($sound_cloud_title).'</div>';}
+			echo '<div class="sound_cloud_title">'.esc_attr($sound_cloud_title).'</div>';}
 			
 			echo '</div>';
     			 
-    		 	if(!empty( $instance['more_url'] )){ echo ' <a href="' . esc_url( $instance['more_url'] ) . '" class="sound_cloud_title sound_cloud_pub_date">See More ></a>';};
+    		 	if(!empty( $instance['more_url'] )){ echo ' <a href="' . esc_url( $instance['more_url'] ) . '" class="sound_cloud_title sound_cloud_pub_date" target="_blank">See More ></a>';};
     			  
     			   
                 echo '</div></div>';
@@ -135,20 +135,20 @@ class wtwh_soundcloud extends WP_Widget {
 			<input type="text" id="<?php echo esc_url($this->get_field_id( 'rssfeed' )); ?>" name="<?php echo esc_attr( $this->get_field_name( 'rssfeed' )); ?>" value="<?php echo esc_url( $instance['rssfeed'] ); ?>" class="widefat" />
 		</p>
 		<p>
-			<label for="<?php echo esc_attr($this->get_field_id( 'more_url' )); ?>">More URL:</label>
-			<input type="text" id="<?php echo esc_attr($this->get_field_id( 'more_url' )); ?>" name="<?php echo esc_attr($this->get_field_name( 'more_url' )); ?>" value="<?php echo esc_attr( $instance['more_url'] ); ?>" class="widefat" />
+			<label for="<?php echo esc_url($this->get_field_id( 'more_url' )); ?>">More URL:</label>
+			<input type="text" id="<?php echo esc_url($this->get_field_id( 'more_url' )); ?>" name="<?php echo esc_url($this->get_field_name( 'more_url' )); ?>" value="<?php echo esc_url( $instance['more_url'] ); ?>" class="widefat" />
 		</p>
 		
 		<p>
 			<label for="<?php echo esc_attr($this->get_field_id( 'show_title' )); ?>">Show Title:</label>
 			<input type="checkbox" id="<?php echo esc_attr($this->get_field_id( 'show_title' )); ?>" name="<?php echo esc_attr($this->get_field_name( 'show_title' )); ?>" value="Y" 
-			<?php if( $instance['show_title']==="Y"){print(' checked ');}?>/>
+			<?php if( $instance['show_title']==="Y"){echo ' checked ';}?>/>
 		</p>
 		
 		<p>
 			<label for="<?php echo esc_attr($this->get_field_id( 'show_date' )); ?>">Show Date:</label>
 			<input type="checkbox" id="<?php echo esc_attr($this->get_field_id( 'show_date' )); ?>" name="<?php echo esc_attr($this->get_field_name( 'show_date' )); ?>" value="Y" 
-			<?php if( $instance['show_date']==="Y"){print(' checked ');}?>/>
+			<?php if( $instance['show_date']==="Y"){echo ' checked ';}?>/>
 		</p>
 		
 
