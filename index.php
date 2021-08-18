@@ -3,9 +3,10 @@
  * Plugin Name: Grab Latest Track From SoundCloud
  * Plugin URI: 	https://marketing.wtwhmedia.com/plugins/
  * Description: Adds a widget that pulls a SoundCloud RSS feed and generates all the needed code to display the latest track where ever you place the widget.  The plugin will setup a CRON job to check once an hour for the newest track.
- * Version:     1.0.0
+ * Version:     1.0.1
  * Author:      WTWH Media LLC - B. David Miyares
- * Author URI:  https://marketing.wtwhmedia.com/contact-us/
+ * Author URI:  https://marketing.wtwhmedia.com/plugins
+ /
  * License: GNU GPLv2
  * GitHub : https://github.com/dmiyares/SoundCloud-Latest-Track-Grabber
  *
@@ -21,7 +22,8 @@ class wtwh_soundcloud extends WP_Widget {
 
 		// widget defaults
 		$this->defaults = array(
-						'title'          => 'Featured Programming',
+						'title'     
+						     => 'Featured Programming',
             'more_url'       => '',
 		);
 
@@ -62,10 +64,7 @@ class wtwh_soundcloud extends WP_Widget {
 		$sound_cloud_pub_date =get_option('wtwh_soundcloud_pubDateID-'.$widget_number);
 		$sound_cloud_title   =get_option('wtwh_soundcloud_title-'.$widget_number);
 		
-	 
-		
-		
-		
+
 		echo $before_widget;
 
 			// Title
@@ -85,13 +84,13 @@ class wtwh_soundcloud extends WP_Widget {
 				echo '<iframe width="100%" height="300" scrolling="no" frameborder="no" allow="autoplay" src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/'.esc_attr($sound_cloud_track_id).'&color=%23ff5500&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true&visual=true"></iframe>';
 
 		if($instance['show_date']=="Y"){
-			echo '<div class="sound_cloud_pub_date">'.esc_attr($sound_cloud_pub_date).'</div>';}
+			echo '<div class="SoundCloudPubDate">'.esc_attr($sound_cloud_pub_date).'</div>';}
 		if($instance['show_title']=="Y"){
-			echo '<div class="sound_cloud_title">'.esc_attr($sound_cloud_title).'</div>';}
+			echo '<div class="SoundCloudTitle">'.esc_attr($sound_cloud_title).'</div>';}
 			
 			echo '</div>';
     			 
-    		 	if(!empty( $instance['more_url'] )){ echo ' <a href="' . esc_url( $instance['more_url'] ) . '" class="sound_cloud_title sound_cloud_pub_date" target="_blank">See More ></a>';};
+    		 	if(!empty( $instance['more_url'] )){ echo ' <a href="' . esc_url( $instance['more_url'] ) . '" class="SoundCloudTitle SoundCloudPubDate" target="_blank">See More ></a>';};
     			  
     			   
                 echo '</div></div>';
@@ -136,7 +135,7 @@ class wtwh_soundcloud extends WP_Widget {
 		</p>
 		<p>
 			<label for="<?php echo esc_url($this->get_field_id( 'more_url' )); ?>">More URL:</label>
-			<input type="text" id="<?php echo esc_url($this->get_field_id( 'more_url' )); ?>" name="<?php echo esc_url($this->get_field_name( 'more_url' )); ?>" value="<?php echo esc_url( $instance['more_url'] ); ?>" class="widefat" />
+			<input type="text" id="<?php echo esc_html($this->get_field_id( 'more_url' )); ?>" name="<?php echo $this->get_field_name( 'more_url' ); ?>" value="<?php echo esc_html( $instance['more_url'] ); ?>" class="widefat" />
 		</p>
 		
 		<p>

@@ -4,7 +4,7 @@ Tags: widget, podcast, soundcloud, rss
 Requires at least: 5.7
 Tested up to: 5.8
 Requires PHP: 7.2
-Stable tag: 1.0.0
+Stable tag: 1.0.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -22,13 +22,13 @@ Adds a widget that pulls a SoundCloud RSS feed and generates all the needed code
 
 
 == Frequently Asked Questions ==
-**Q: I just added my feed by it\\\'s showing up as an error on the front end**
+**Q: I just added my feed by it's showing up as an error on the front end**
 A: On the widgets dialog box click the `Click here to import newest Podcasts NOW` link.  This will force WordPress to go and gather the newest items. 
 
 **Q: Does this plugin work with providers other than SoundCloud**
 A: No.  This plugin was specifically made to pull RSS from SoundCloud
 
-**Q: Where can I find my SoundCloud RSS feed\\\'s URL?** 
+**Q: Where can I find my SoundCloud RSS feed's URL?** 
 A: Login to your SoundCloud account and go under settings -> Content.  The RSS feed will be displayed here.
 
 **Q: The Date / Title are pushed up right against the DIV and look terrible! How can I change this?
@@ -45,4 +45,14 @@ A: You can tweek the way the Date & the Title show up using the WordPress Custom
 2. Example of how widget looks on front end in right rail
 
 == Changelog ==
+
+= 1.0.1 =
+Release Date - August 2, 2021
+ * Fixed item relating to the more field being dropped.
+ * Fixed class names for styling publication date & title.
+ * Fixed readme file so that single quotes are not escape coded.
+ * Changed author link to stand alone page with ONLY plugins.
+
+ 
+= 1.0.0 =
 Release Date: July 27rd, 2021
